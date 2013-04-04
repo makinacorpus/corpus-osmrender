@@ -59,15 +59,15 @@ makina-projects.projectname:
       buckets:
         live:
           minprio: 1
-          maxproc: 2
-          maxload: 5
+          maxproc: 6
+          maxload: 6
         important:
           minprio: 10
-          maxproc: 1
-          maxload: 3
+          maxproc: 4
+          maxload: 4
         background:
           minprio: 20
-          maxproc: 1
+          maxproc: 3
           maxload: 2
 # bucket name=live minprio=1 maxproc=2 maxload=5
 # bucket name=important minprio=10 maxproc=1 maxload=3
