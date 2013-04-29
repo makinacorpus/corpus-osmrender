@@ -59,14 +59,18 @@ makina-projects.projectname:
       buckets:
         live:
           minprio: 1
-          maxproc: 4
-          maxload: 10
+          maxproc: 2
+          maxload: 5
         important:
           minprio: 10
-          maxproc: 2
-          maxload: 6
+          maxproc: 1
+          maxload: 3
         background:
           minprio: 20
-          maxload: 4
           maxproc: 1
+          maxload: 2
+# bucket name=live minprio=1 maxproc=2 maxload=5
+# bucket name=important minprio=10 maxproc=1 maxload=3
+# bucket name=background minprio=20 maxproc=1 maxload=2
+
 # vim:set ft=yaml et:
