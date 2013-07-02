@@ -13,7 +13,7 @@
 # with the relevant pillar
 makina-projects.projectname:
   data:
-    tirex_ver: 0.4.1
+    tirex_ver: 0.5.2
     modtile_ver: 0.4-12
     domain: "{fqdn}"
     test_template: "salt://makina-projects/{name}/files/test.html"
