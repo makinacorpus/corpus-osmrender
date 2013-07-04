@@ -49,4 +49,19 @@ makina-projects.projectname:
     mapnik_procs: 4
     min_zoom: 0
     max_zoom: 24
-# vim:set ft=yaml:
+    tirex:
+      backend_manager_alive_timeout: 15
+      buckets:
+        live:
+          minprio: 1
+          maxproc: 4
+          maxload: 10
+        important:
+          minprio: 10
+          maxproc: 2
+          maxload: 6
+        background:
+          minprio: 20
+          maxload: 4
+          maxproc: 1
+# vim:set ft=yaml et:
