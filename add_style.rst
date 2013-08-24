@@ -59,7 +59,8 @@ For desaturate, log of my operations:
 
             .. code::
 
-                salt-call -lall mc_project.deploy osmrender only=install,fixperms only_steps=400_osmstyle.sls
+                salt-call -lall mc_project.deploy osmrender \
+                    only=install,fixperms only_steps=400_osmstyle.sls
 
 * Wash, Rince, Repeat
 
