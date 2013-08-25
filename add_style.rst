@@ -47,7 +47,19 @@ For desaturate, log of my operations:
 
 * Verify that ``../data/<style>style/project.xml`` variables are correctly generated
 
-    * If not, reedit and fix 400_osmstyle & reinstall
+    * If not, reedit and fix 400_osmstyle & reinstall with one of
+
+        - full install
+
+            .. code::
+
+                salt-call -lall mc_project.deploy osmrender only=install,fixperms
+
+        - light install (only style stuff)
+
+            .. code::
+
+                salt-call -lall mc_project.deploy osmrender only=install,fixperms only_steps=400_osmstyle.sls
 
 * Wash, Rince, Repeat
 
