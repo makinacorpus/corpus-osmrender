@@ -33,7 +33,7 @@ For desaturate, log of my operations:
 
         $EDITOR  .salt/files/etc/tirex/renderer/mapnik/desaturate.conf
 
-* Verify that you understand what ``.salt/400_osmstyle.sls``will do,
+* Verify that you understand what ``.salt/400_osmstyle.sls`` will do,
   and maybe edit/adapt it for the new style.
 
 * Reconfigure
