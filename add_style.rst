@@ -22,7 +22,8 @@ For desaturate, log of my operations:
 
 * Copy the sample conf
 
-.. code ::
+.. code ::                                     a
+
     cp .salt/files/etc/tirex/renderer/mapnik/osm.conf .salt/files/etc/tirex/renderer/mapnik/desaturate.conf
 
 * Adapt it
