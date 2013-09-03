@@ -1,6 +1,11 @@
 Add a style
 ===========
+
+Of course, replace all occurences of ``desaturate`` by ``<yourstyle>``.
+
+
 For desaturate, log of my operations:
+
 
 * Edit .salt/PILLAR.sample and in data/styles, add:
 
@@ -43,3 +48,9 @@ For desaturate, log of my operations:
     * If not, reedit and fix 400_osmstyle & reinstall
 
 * Wash, Rince, Repeat
+
+* When you are sure
+
+.. code::
+
+    tirex-batch -p 21 z=5-12 map=desaturate bbox=-180,-90,180,90
