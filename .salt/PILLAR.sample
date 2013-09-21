@@ -25,6 +25,7 @@ makina-projects.projectname:
           /etc/tirex/renderer/mapnik/osm.conf: {}
       desaturate:
         git_url: https://github.com/makinacorpus/osm-desaturate.git
+        skip_mml: true
         cfgs:
           /etc/tirex/renderer/mapnik/desaturate.conf: {}
     tirex_cfgs:

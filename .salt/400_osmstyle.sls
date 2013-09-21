@@ -13,7 +13,10 @@
 {{cfg.name}}-style-{{style}}-build:
   cmd.run:
     - name: "carto project.mml > project.xml.in"
-    - onlyif: test -e project.mml
+    - onlyif: |
+              set -e
+              test -e project.mml
+              {% if sdata.get('skip_mml') %}exit 1{%endif %}
     - cwd: {{cfg.data_root}}/{{style}}style
     - require:
       - git: {{cfg.name}}-style-{{style}}-git
