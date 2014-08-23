@@ -13,34 +13,46 @@
 {{cfg.name}}-style-{{style}}-build:
   cmd.run:
     - name: "carto project.mml > project.xml.in"
-    - onlyif: test -e project.xml
+    - onlyif: test -e project.mml
     - cwd: {{cfg.data_root}}/{{style}}style
     - require:
       - git: {{cfg.name}}-style-{{style}}-git
 
 {{cfg.name}}-style-{{style}}-gen:
-  cmd.run:
-    - name: >
-        sed -r
-        -e 's|data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp|data/water-polygons-split-3857/water_polygons.shp|g'
-        -e 's|(<Parameter name="dbname")|<Parameter name="host"><![CDATA[{{data.db_host}}]]></Parameter>  \1|g'
-        -e 's|(<Parameter name="dbname")|<Parameter name="user"><![CDATA[{{data.db_user}}]]></Parameter>  \1|g'
-        -e 's|(<Parameter name="dbname")|<Parameter name="port"><![CDATA[{{data.db_port}}]]></Parameter>  \1|g'
-        -e 's|(<Parameter name="dbname")|<Parameter name="password"><![CDATA[{{data.db_password}}]]></Parameter>   \1|g'
-        -e  's|<Parameter name="dbname"><!\[CDATA\[gis\]\]></Parameter>|<Parameter name="dbname"><![CDATA[{{data.db_name}}]]></Parameter>|g'
+  file.managed:
+    - name: {{cfg.data_root}}/{{style}}-rewrite.sh
+    - mode: 700
+    - contents: |
+        sed -r \
+        -e 's|data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp|data/water-polygons-split-3857/water_polygons.shp|g' \
+        {% for i in ['host', 'port', 'password', 'user'] -%}
+        -e 's|<Parameter name="{{i}}".*</Parameter>||g' \
+        {% endfor -%}
+        -e 's|(<Parameter name="dbname")|<Parameter name="host"><![CDATA[{{data.db_host}}]]></Parameter>  \1|g' \
+        -e 's|(<Parameter name="dbname")|<Parameter name="host"><![CDATA[{{data.db_host}}]]></Parameter>  \1|g' \
+        -e 's|(<Parameter name="dbname")|<Parameter name="user"><![CDATA[{{data.db_user}}]]></Parameter>  \1|g' \
+        -e 's|(<Parameter name="dbname")|<Parameter name="port"><![CDATA[{{data.db_port}}]]></Parameter>  \1|g' \
+        -e 's|(<Parameter name="dbname")|<Parameter name="password"><![CDATA[{{data.db_password}}]]></Parameter>   \1|g' \
+        -e 's|(<Parameter name="dbname")><!\[CDATA\[[^\]+\]\]></Parameter>|<Parameter name="dbname"><![CDATA[{{data.db_name}}]]></Parameter>|g' \
         project.xml.in > project.xml
-    - cwd: {{cfg.data_root}}/osmstyle
+  cmd.run:
+    - name: {{cfg.data_root}}/{{style}}-rewrite.sh
+    - cwd: {{cfg.data_root}}/{{style}}style
     - require:
+      - file: {{cfg.name}}-style-{{style}}-gen
       - cmd: {{cfg.name}}-style-{{style}}-build
 
-{% if style == 'osm' %}
-{{cfg.name}}-style-shapes:
+{{cfg.name}}-style-{{style}}-shapes:
   cmd.run:
+    - require:
+      - cmd: {{cfg.name}}-style-{{style}}-build
     - name: ./get-shapefiles.sh
+    - onlyif: test -e ./get-shapefiles.sh
     - use_vt: true
-    - cwd: {{cfg.data_root}}/osmstyle
+    - cwd: {{cfg.data_root}}/{{style}}style
     - unless: |
         set -ex
+        {% if style in ['osm'] %}
         test -e ./data/world_boundaries-spherical.tgz
         test -e ./data/ne_110m_admin_0_boundary_lines_land.zip
         test -e ./data/ne_110m_admin_0_boundary_lines_land
@@ -99,7 +111,5 @@
         test -e ./data/antarctica-icesheet-outlines-3857/icesheet_outlines.dbf
         test -e ./data/antarctica-icesheet-outlines-3857/icesheet_outlines.prj
         test -e ./data/simplified-water-polygons-complete-3857.zip
-    - require:
-      - cmd: {{cfg.name}}-style-{{style}}-build
-{% endif %}
+        {% endif %}
 {% endfor %}
