@@ -25,4 +25,9 @@ makina-projects.projectname:
       vh_top_source: "salt://makina-projects/{name}/files/top.conf"
       vhost_basename: "corpus-{name}"
       doc_root: "{doc_root}"
+    db_host: localhost
+    db_port: 5432
+    db_password: secret
+    db_name: gis
+    db_user: gis
 # vim:set ft=yaml:

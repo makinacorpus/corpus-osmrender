@@ -8,11 +8,26 @@
 
 {{cfg.name}}-style-build:
   cmd.run:
-    - name: "carto project.mml > project.xml"
-    - unless: test -e project.xml
+    - name: "carto project.mml > project.xml.in"
+    - unless: test -e project.xml.in
     - cwd: {{cfg.data_root}}/osmstyle
     - require:
       - git: {{cfg.name}}-style-git
+
+    #<Parameter name="dbname"><![CDATA[gis]]></Parameter>
+{{cfg.name}}-style-gen:
+  cmd.run:
+    - name: >
+        sed -r
+        -e 's|(<Parameter name="dbname")|<Parameter name="host"><![CDATA[{{data.db_host}}]]></Parameter>  \1|g'
+        -e 's|(<Parameter name="dbname")|<Parameter name="user"><![CDATA[{{data.db_user}}]]></Parameter>  \1|g'
+        -e 's|(<Parameter name="dbname")|<Parameter name="port"><![CDATA[{{data.db_port}}]]></Parameter>  \1|g'
+        -e 's|(<Parameter name="dbname")|<Parameter name="password"><![CDATA[{{data.db_password}}]]></Parameter>   \1|g'
+        -e  's|<Parameter name="dbname"><!\[CDATA\[gis\]\]></Parameter>|<Parameter name="dbname"><![CDATA[{{data.db_name}}]]></Parameter>|g'
+        project.xml.in > project.xml
+    - cwd: {{cfg.data_root}}/osmstyle
+    - require:
+      - cmd: {{cfg.name}}-style-build
 
 {{cfg.name}}-style-shapes:
   cmd.run:
