@@ -9,6 +9,9 @@ include:
 {{cfg.name}}-prereqs:
   pkg.latest:
     - pkgs:
+      - libaprutil1-dev
+      - libapr1-dev
+      - apache2-dev
       - libipc-sharelite-perl
       - debhelper
       - libgd-gd2-perl
@@ -91,6 +94,11 @@ include:
     - watch_in:
       - mc_proxy: {{orchestrate['base']['postbase']}}
 
+
+dirs-{{cfg.name}}:
+  file.directory:
+    - names:
+      - {{data.doc_root}}
 
 buildosmconvert-{{cfg.name}}:
   cmd.run:

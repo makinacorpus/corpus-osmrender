@@ -14,7 +14,15 @@
 makina-projects.projectname:
   data:
     tirex_ver: 0.4.1
+    modtile_ver: 0.4-12
+    domain: "{fqdn}"
     style_git: https://github.com/gravitystorm/openstreetmap-carto.git
     tirex_cfgs:
       /etc/tirex/renderer/mapnik/osm.conf: {}
+    doc_root: "{data_root}/www"
+    apache_vhost:
+      vh_content_source: "salt://makina-projects/{name}/files/in_virtualhost.conf"
+      vh_top_source: "salt://makina-projects/{name}/files/top.conf"
+      vhost_basename: "corpus-{name}"
+      doc_root: "{doc_root}"
 # vim:set ft=yaml:
