@@ -19,6 +19,9 @@ makina-projects.projectname:
     style_git: https://github.com/gravitystorm/openstreetmap-carto.git
     tirex_cfgs:
       /etc/tirex/renderer/mapnik/osm.conf: {}
+      /etc/tirex/renderer/mapnik.conf: {}
+      /etc/tirex/tirex.conf: {}
+      /etc/renderd.conf: {}
     doc_root: "{data_root}/www"
     apache_vhost:
       vh_content_source: "salt://makina-projects/{name}/files/in_virtualhost.conf"
@@ -30,4 +33,10 @@ makina-projects.projectname:
     db_password: secret
     db_name: gis
     db_user: gis
+    mapnik_input_plugins: /usr/lib/mapnik/3.0/input/
+    mapnik_font_dir: /usr/share/fonts/
+    mapnik_font_dir_recurse: 1
+    min_zoom: 0
+    max_zoom: 18
+    mapnik_procs: 4
 # vim:set ft=yaml:

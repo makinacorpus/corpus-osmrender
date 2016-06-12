@@ -41,6 +41,27 @@
                     chown {{cfg.user}}:$datagroup "${i}"
                   fi
                 fi
+             done
+             # /srv/projects/osmrender/data/osmstyle
+             chmod 751 "{{cfg.data_root}}/osmstyle" "{{cfg.data_root}}"
+             chown :tirex "{{cfg.data_root}}/osmstyle"
+             find -H \
+              "{{cfg.data_root}}/osmstyle" \
+              \(\
+                \(     -type f -and \( -not -user {{cfg.user}} -or -not -group tirex                      \) \)\
+                -or \( -type d -and \( -not -user {{cfg.user}} -or -not -group {{cfg.group}} -or -not -perm -2000 \) \)\
+              \)\
+              |\
+              while read i;do
+                if [ ! -h "${i}" ];then
+                  if [ -d "${i}" ];then
+                    chmod g-s "${i}"
+                    chown {{cfg.user}}:tirex "${i}"
+                    chmod g+s "${i}"
+                  elif [ -f "${i}" ];then
+                    chown {{cfg.user}}:tirex "${i}"
+                  fi
+                fi
             done
             "{{locs.resetperms}}" -q --no-acls --no-recursive\
               --user root --group root --dmode '0555' --fmode '0555' \

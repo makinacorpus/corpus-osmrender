@@ -16,7 +16,6 @@
     - name: https://github.com/geofabrik/tirex.git
     - target: {{cfg.data_root}}/tirex_build
 
-
 {{cfg.name}}-build:
   cmd.run:
     - name: make && make deb
@@ -102,6 +101,22 @@
      prefix=cfg.name+'-tyex-config-conf',
      project=cfg.name, cfg=cfg.name)}}
 
+{{cfg.name}}-tirex-dirs:
+  file.directory:
+    - names:
+      - /var/lib/tirex/tiles/osm
+    - mode: 755
+    - user: tirex
+    - group: tirex
+  {{rmacro()}}
+
+{{cfg.name}}-remove-examples:
+  file.absent:
+    - names:
+      - /etc/tirex/renderer/test.conf
+      - /etc/tirex/renderer/mapnik/example.conf
+  {{rmacro()}}
+
 {{cfg.name}}-reload-tirex-master:
   service.running:
     - name: tirex-master
@@ -114,3 +129,9 @@
     - enable: true
     - watch:
       - mc_proxy: {{cfg.name}}-configs-post
+{{cfg.name}}-reload-renderd:
+  service.running:
+    - name: renderd
+    - enable: true
+    - watch:
+      - mc_proxy: {{cfg.name}}-configs-post 
