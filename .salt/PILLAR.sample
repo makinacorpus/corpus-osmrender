@@ -16,9 +16,12 @@ makina-projects.projectname:
     tirex_ver: 0.4.1
     modtile_ver: 0.4-12
     domain: "{fqdn}"
-    style_git: https://github.com/gravitystorm/openstreetmap-carto.git
+    styles:
+      osm:
+        git_url: https://github.com/gravitystorm/openstreetmap-carto.git
+        cfgs:
+          /etc/tirex/renderer/mapnik/osm.conf: {}
     tirex_cfgs:
-      /etc/tirex/renderer/mapnik/osm.conf: {}
       /etc/tirex/renderer/mapnik.conf: {}
       /etc/tirex/tirex.conf: {}
       /etc/renderd.conf: {}
@@ -36,7 +39,7 @@ makina-projects.projectname:
     mapnik_input_plugins: /usr/lib/mapnik/3.0/input/
     mapnik_font_dir: /usr/share/fonts/
     mapnik_font_dir_recurse: 1
+    mapnik_procs: 4
     min_zoom: 0
     max_zoom: 18
-    mapnik_procs: 4
 # vim:set ft=yaml:

@@ -1,21 +1,22 @@
 {%- set cfg = opts.ms_project %}
 {%- set data = cfg.data %}
 
-{{cfg.name}}-style-git:
+{% for style, sdata in data.styles.items() %}
+{{cfg.name}}-style-{{style}}-git:
   git.latest:
-    - name: {{data.style_git}}
-    - target: {{cfg.data_root}}/osmstyle
+    - name: {{sdata.git_url}}
+    - target: {{cfg.data_root}}/{{style}}style
 
-{{cfg.name}}-style-build:
+{{cfg.name}}-style-{{style}}-build:
   cmd.run:
     - name: "carto project.mml > project.xml.in"
+    - onlyif: test -e project.xml
     - unless: test -e project.xml.in
-    - cwd: {{cfg.data_root}}/osmstyle
+    - cwd: {{cfg.data_root}}/{{style}}style
     - require:
-      - git: {{cfg.name}}-style-git
+      - git: {{cfg.name}}-style-{{style}}-git
 
-    #<Parameter name="dbname"><![CDATA[gis]]></Parameter>
-{{cfg.name}}-style-gen:
+{{cfg.name}}-style-{{style}}-gen:
   cmd.run:
     - name: >
         sed -r
@@ -27,8 +28,9 @@
         project.xml.in > project.xml
     - cwd: {{cfg.data_root}}/osmstyle
     - require:
-      - cmd: {{cfg.name}}-style-build
+      - cmd: {{cfg.name}}-style-{{style}}-build
 
+{% if style == 'osm' %}
 {{cfg.name}}-style-shapes:
   cmd.run:
     - name: ./get-shapefiles.sh
@@ -95,4 +97,6 @@
         test -e ./data/antarctica-icesheet-outlines-3857/icesheet_outlines.prj
         test -e ./data/simplified-water-polygons-complete-3857.zip
     - require:
-      - cmd: {{cfg.name}}-style-build
+      - cmd: {{cfg.name}}-style-{{style}}-build
+{% endif %}
+{% endfor %}

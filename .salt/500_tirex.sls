@@ -98,13 +98,25 @@
      mode='644',
      user=cfg.user, group=cfg.group,
      after_macro=rmacro,
-     prefix=cfg.name+'-tyex-config-conf',
+     prefix=cfg.name+'-tirex-config-conf',
      project=cfg.name, cfg=cfg.name)}}
+{% for style, sdata in data.styles.items() %}
+{{ h.deliver_config_files(
+     sdata.get('cfgs', {}),
+     dir='makina-projects/{0}/files'.format(cfg.name),
+     mode='644',
+     user=cfg.user, group=cfg.group,
+     after_macro=rmacro,
+     prefix=cfg.name+'-tirex-config-conf',
+     project=cfg.name, cfg=cfg.name, style=style)}}
+{% endfor %}
 
 {{cfg.name}}-tirex-dirs:
   file.directory:
     - names:
-      - /var/lib/tirex/tiles/osm
+      {% for i in data.styles %}
+      - /var/lib/tirex/tiles/{{i}}
+      {% endfor %}
     - mode: 755
     - user: tirex
     - group: tirex
@@ -134,4 +146,4 @@
     - name: renderd
     - enable: true
     - watch:
-      - mc_proxy: {{cfg.name}}-configs-post 
+      - mc_proxy: {{cfg.name}}-configs-post

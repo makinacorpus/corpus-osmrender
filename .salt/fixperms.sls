@@ -43,8 +43,9 @@
                 fi
              done
              # /srv/projects/osmrender/data/osmstyle
-             chmod 751 "{{cfg.data_root}}/osmstyle" "{{cfg.data_root}}"
-             chown :tirex "{{cfg.data_root}}/osmstyle"
+             {% for i in data.styles %}
+             chmod 751 "{{cfg.data_root}}/{{i}}style" "{{cfg.data_root}}"
+             chown :tirex "{{cfg.data_root}}/{{i}}style"
              find -H \
               "{{cfg.data_root}}/osmstyle" \
               \(\
@@ -63,6 +64,7 @@
                   fi
                 fi
             done
+            {%endfor%}
             "{{locs.resetperms}}" -q --no-acls --no-recursive\
               --user root --group root --dmode '0555' --fmode '0555' \
               --paths "{{cfg.project_dir}}/global-reset-perms.sh" \
