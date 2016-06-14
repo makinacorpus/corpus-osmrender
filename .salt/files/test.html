@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+{%- set cfg = salt['mc_project.get_configuration'](cfg) %}
+{%- set data = cfg.data %}
+<head>
+  <title>OSM {{style}} TEST</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+</head>
+<body>
+	<div id="mapid" style="width: 1024px; height: 768px"></div>
+	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+	<script>
+		var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    L.tileLayer('https://{{cfg.data.domain}}/tiles/{{style}}/{z}/{x}/{y}.png', {
+			maxZoom: 24,
+		}).addTo(mymap);
+		var popup = L.popup();
+	</script>
+</body>
+</html>
+

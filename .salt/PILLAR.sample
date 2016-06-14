@@ -16,6 +16,7 @@ makina-projects.projectname:
     tirex_ver: 0.4.1
     modtile_ver: 0.4-12
     domain: "{fqdn}"
+    test_template: "salt://makina-projects/{name}/files/test.html"
     styles:
       osm:
         git_url: https://github.com/gravitystorm/openstreetmap-carto.git
