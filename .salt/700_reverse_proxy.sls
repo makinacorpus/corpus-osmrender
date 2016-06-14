@@ -6,3 +6,12 @@ include:
 {{apache.virtualhost(cfg.data.domain,
                      cfg=cfg.name,
                      **cfg.data.apache_vhost)}}
+
+
+itworks:
+  file.managed:
+    - contents: '<html><body>itworks</body></html>'
+    - name: "{{cfg.data.doc_root}}/index.html"
+    - mode: 644
+    - user: {{cfg.user}}
+    - group: {{cfg.group}}
