@@ -11,7 +11,6 @@
   cmd.run:
     - name: "carto project.mml > project.xml.in"
     - onlyif: test -e project.xml
-    - unless: test -e project.xml.in
     - cwd: {{cfg.data_root}}/{{style}}style
     - require:
       - git: {{cfg.name}}-style-{{style}}-git
@@ -20,6 +19,7 @@
   cmd.run:
     - name: >
         sed -r
+        -e 's|data/simplified-water-polygons-complete-3857/simplified_water_polygons.shp|data/water-polygons-split-3857/water_polygons.shp|g'
         -e 's|(<Parameter name="dbname")|<Parameter name="host"><![CDATA[{{data.db_host}}]]></Parameter>  \1|g'
         -e 's|(<Parameter name="dbname")|<Parameter name="user"><![CDATA[{{data.db_user}}]]></Parameter>  \1|g'
         -e 's|(<Parameter name="dbname")|<Parameter name="port"><![CDATA[{{data.db_port}}]]></Parameter>  \1|g'
