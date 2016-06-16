@@ -42,5 +42,5 @@ makina-projects.projectname:
     mapnik_font_dir_recurse: 1
     mapnik_procs: 4
     min_zoom: 0
-    max_zoom: 18
+    max_zoom: 24
 # vim:set ft=yaml:
