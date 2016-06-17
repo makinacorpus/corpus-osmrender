@@ -20,6 +20,7 @@ makina-projects.projectname:
     styles:
       osm:
         git_url: https://github.com/gravitystorm/openstreetmap-carto.git
+        # git_rev: d789bdac60a17ff8fe18e6d8b978423147c21c53
         cfgs:
           /etc/tirex/renderer/mapnik/osm.conf: {}
     tirex_cfgs:

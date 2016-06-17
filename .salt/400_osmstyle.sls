@@ -6,6 +6,9 @@
   git.latest:
     - name: {{sdata.git_url}}
     - target: {{cfg.data_root}}/{{style}}style
+    {% if sdata.get('git_rev', None)%}
+    - rev: {{sdata.git_rev}}
+    {% endif %}
 
 {{cfg.name}}-style-{{style}}-build:
   cmd.run:
