@@ -69,3 +69,4 @@ For desaturate, log of my operations:
     .. code::
 
         tirex-batch -p 21 z=5-12 map=desaturate bbox=-180,-90,180,90
+
