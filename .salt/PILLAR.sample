@@ -28,6 +28,11 @@ makina-projects.projectname:
         skip_mml: true
         cfgs:
           /etc/tirex/renderer/mapnik/desaturate.conf: {}
+      light:
+        git_url: https://github.com/makinacorpus/osm-light.git
+        skip_mml: true
+        cfgs:
+          /etc/tirex/renderer/mapnik/light.conf: {}
     tirex_cfgs:
       /etc/tirex/renderer/mapnik.conf: {}
       /etc/tirex/tirex.conf: {}
