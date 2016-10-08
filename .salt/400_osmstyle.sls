@@ -114,5 +114,7 @@
         test -e ./data/antarctica-icesheet-outlines-3857/icesheet_outlines.dbf
         test -e ./data/antarctica-icesheet-outlines-3857/icesheet_outlines.prj
         test -e ./data/simplified-water-polygons-complete-3857.zip
+        {% else %}
+        exit 1
         {% endif %}
 {% endfor %}
