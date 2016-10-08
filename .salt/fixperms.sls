@@ -1,4 +1,5 @@
 {% set cfg = opts['ms_project'] %}
+{% set data = cfg.data %}
 {# export macro to callees #}
 {% set locs = salt['mc_locations.settings']() %}
 {% set cfg = opts['ms_project'] %}
@@ -15,6 +16,7 @@
             datagroup="{{cfg.group}}"
             groupadd -r $datagroup 2>/dev/null || /bin/true
             users="nginx www-data"
+            gpasswd -a {{cfg.user}} tirex >/dev/null 2>&1 || /bin/true
             for i in $users;do
               gpasswd -a $i $datagroup >/dev/null 2>&1 || /bin/true
             done
@@ -51,7 +53,7 @@
               "{{cfg.data_root}}/osmstyle" \
               \(\
                 \(     -type f -and \( -not -user {{cfg.user}} -or -not -group tirex                      \) \)\
-                -or \( -type d -and \( -not -user {{cfg.user}} -or -not -group {{cfg.group}} -or -not -perm -2000 \) \)\
+                -or \( -type d -and \( -not -user {{cfg.user}} -or -not -group tirex -or -not -perm -2000 \) \)\
               \)\
               |\
               while read i;do
