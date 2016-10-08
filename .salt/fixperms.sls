@@ -46,11 +46,9 @@
                 fi
              done
              # /srv/projects/osmrender/data/osmstyle
-             {% for i in data.styles %}
-             chmod 751 "{{cfg.data_root}}/{{i}}style" "{{cfg.data_root}}"
-             chown :tirex "{{cfg.data_root}}/{{i}}style"
+             chmod 751 "{{cfg.data_root}}" {% for i in data.styles %} "{{cfg.data_root}}/{{i}}style"{% endfor %}
              find -H \
-              "{{cfg.data_root}}/osmstyle" \
+              "{{cfg.data_root}}" {% for i in data.styles %} "{{cfg.data_root}}/{{i}}style" {%endfor%} \
               \(\
                 \(     -type f -and \( -not -user {{cfg.user}} -or -not -group tirex                      \) \)\
                 -or \( -type d -and \( -not -user {{cfg.user}} -or -not -group tirex -or -not -perm -2000 \) \)\
@@ -67,7 +65,6 @@
                   fi
                 fi
             done
-            {%endfor%}
             "{{locs.resetperms}}" -q --no-acls --no-recursive\
               --user root --group root --dmode '0555' --fmode '0555' \
               --paths "{{cfg.project_dir}}/global-reset-perms.sh" \
